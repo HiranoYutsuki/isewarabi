@@ -54,6 +54,51 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* 画像ボタンのスタイル（ページ下固定） */
+#stopBtn {
+  position: fixed;          /* 常に画面に固定 */
+  bottom: 20px;             /* 画面下から20px */
+  left: 50%;                /* 横中央 */
+  transform: translateX(-50%); /* 中央揃え */
+  width: 80px;              /* ボタンサイズ */
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  z-index: 1000;            /* 他の要素より前に表示 */
+}
+
+#stopBtn:hover {
+  transform: translateX(-50%) scale(1.1); /* 中央＋拡大 */
+}
+
+/* 選択肢のコンテナを中央に固定 */
+#choices {
+  position: fixed;       /* 画面に固定 */
+  top: 50%;              /* 縦中央 */
+  left: 50%;             /* 横中央 */
+  transform: translate(-50%, -50%); /* 真ん中に揃える */
+  display: none;         /* 初期は非表示 */
+  text-align: center;
+  z-index: 1000;
+}
+
+/* 各ボタンのスタイル */
+.choiceBtn {
+  display: block;
+  margin: 10px auto;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  border-radius: 8px;
+  border: 1px solid #646cff;
+  background-color: #1a1a1a;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.choiceBtn:hover {
+  transform: scale(1.05);
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

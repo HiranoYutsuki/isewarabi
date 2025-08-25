@@ -12,24 +12,18 @@ const choicesDiv = document.getElementById("choices");
 const resultDiv = document.getElementById("result");
 const explanationDiv = document.getElementById("explanation");
 
-const retryBtn = document.createElement("button");
-retryBtn.textContent = "🔄 もう一回";
-retryBtn.style.display = "none";
-retryBtn.style.marginTop = "20px";
-document.body.appendChild(retryBtn);
-
 let index = 0;
 let interval;
 
 // 問題文を少しずつ表示
 function startTyping() {
     interval = setInterval(() => {
-    questionDiv.textContent += quiz.question[index];
-    index++;
-    if (index >= quiz.question.length) {
-        clearInterval(interval);
-    }
-  }, 80); // 文字表示スピード
+        questionDiv.textContent += quiz.question[index];
+        index++;
+        if (index >= quiz.question.length) {
+            clearInterval(interval);
+        }
+    }, 80); // 文字表示スピード
 }
 
 // 画像をクリックしたとき
@@ -41,15 +35,18 @@ stopBtn.addEventListener("click", () => {
 // 選択肢を表示
 function showChoices() {
     stopBtn.style.display = "none";
+    choicesDiv.innerHTML = ""; // 前回のボタンがあれば消す
     choicesDiv.style.display = "block";
+
     quiz.choices.forEach((choice, i) => {
-    const btn = document.createElement("button");
-    btn.textContent = choice;
-    btn.addEventListener("click", () => {
-    showResult(i);
+        const btn = document.createElement("button");
+        btn.textContent = choice;
+        btn.className = "choiceBtn"; // 中央固定用のクラスを付与
+        btn.addEventListener("click", () => {
+            showResult(i);
+        });
+        choicesDiv.appendChild(btn);
     });
-    choicesDiv.appendChild(btn);
-  });
 }
 
 // 結果と解説を表示
@@ -64,11 +61,11 @@ function showResult(selectedIndex) {
         resultDiv.style.color = "red";
     }
 
-  // 結果アニメーション
+    // 結果アニメーション
     resultDiv.style.opacity = 1;
     resultDiv.style.transform = "scale(1)";
 
-  // 解説アニメーション
+    // 解説アニメーション
     setTimeout(() => {
         explanationDiv.textContent = "解説: " + quiz.explanation;
         explanationDiv.style.opacity = 1;
