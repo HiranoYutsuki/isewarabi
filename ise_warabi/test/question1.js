@@ -1,9 +1,9 @@
 // クイズデータ
 const quiz = {
-    question: "日本で一番高い山は何でしょう？",
-    choices: ["富士山", "北岳", "槍ヶ岳"],
+    question: "伊勢神宮は、2つの宮から成り立っています。食べ物や衣など“衣食住”を司る神様を祀っているのは、内宮と外宮どちらでしょう？",
+    choices: ["外宮", "中宮", "内宮"],
     answer: 0,
-    explanation: "日本一高い山は標高3776mの富士山です。静岡県と山梨県にまたがっています。"
+    explanation: "伊勢神宮は「内宮（ないくう）」と「外宮（げくう）」に分かれており、外宮では「豊受大御神（とようけのおおみかみ）」が祀られています。食や産業を司る神様で、参拝は「外宮から内宮へ」と進むのが古くからの習わしです。"
 };
 
 const questionDiv = document.getElementById("question");
@@ -11,6 +11,12 @@ const stopBtn = document.getElementById("stopBtn");
 const choicesDiv = document.getElementById("choices");
 const resultDiv = document.getElementById("result");
 const explanationDiv = document.getElementById("explanation");
+
+const retryBtn = document.createElement("button");
+retryBtn.textContent = "🔄 もう一回";
+retryBtn.style.display = "none";
+retryBtn.style.marginTop = "20px";
+document.body.appendChild(retryBtn);
 
 let index = 0;
 let interval;
