@@ -8,8 +8,10 @@ function App() {
   const videoRef = useRef(null)
 
   useEffect(() => {
-    // Webカメラの映像を取得
-    navigator.mediaDevices.getUserMedia({ video: true })
+    // 外カメラ（背面カメラ）を優先して起動
+    navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: 'environment' } }
+    })
       .then(stream => {
         if (videoRef.current) {
           videoRef.current.srcObject = stream
@@ -45,6 +47,7 @@ function App() {
         <video
           ref={videoRef}
           autoPlay
+          playsInline // iOSでインライン再生
           width="320"
           height="240"
           style={{ border: '1px solid #ccc' }}
