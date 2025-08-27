@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <link href="src/index.css" rel="stylesheet">
+        
+        <link href="src/stamp.css" rel="stylesheet"> <!-- スタンプ専用CSSを追加 -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>伊勢神宮へようこそ</title>
+    </head>
+    <body>
+        <!--ここから header-->
+        <header class="header">
+        <div class="header-inner">
+            <div class="header-site-menu">
+            <nav class="site-menu">
+                <ul>
+                <li><a href="index.html">ホーム</a></li>
+                <li><a href="qrcode.html">QRスキャン</a></li>
+                </ul>
+            </nav>
+            </div>
+        </div>
+        </header>
+        <!--ここまで header-->
+
+        <!--ここから main-->
+        <main class="main">
+        <nav class="floating">
+            <ul>
+            <li><a href="#">トップ</a></li>
+            </ul>
+        </nav>
+
+
+        <!-- スタンプラリーエリア -->
+        <section class="stamp-area">
+            <h2>スタンプラリー</h2>
+            <div id="stamps">
+            <div class="stamp"></div>
+            <div class="stamp"></div>
+            <div class="stamp"></div>
+            <div class="stamp"></div>
+            <div class="stamp"></div>
+            </div>
+            <button class="quiz-btn" onclick="addStamp()">クイズ正解！</button>
+            <div id="card" class="card">🎉 御朱印カードを獲得しました！ 🎉</div>
+        </section>
+        </main>
+        <!--ここまで main-->
+
+        <!--ここから footer-->
+        <footer class="footer">
+        <nav class="site-menu">
+            <ul>
+            <li><a href="index.html">ホーム</a></li>
+            <li><a href="describe.html">QRコード</a></li>
+            </ul>
+        </nav>
+        <p class="copyright"><small>&copy;伊勢神宮紹介</small></p>
+        </footer>
+        <!--ここまで footer-->
+
+        <!-- JS -->
+        <script>
+        let count = 0;
+        function addStamp() {
+            if (count < 5) {
+            document.querySelectorAll(".stamp")[count].classList.add("got");
+            count++;
+            }
+            if (count === 5) {
+            document.getElementById("card").style.display = "block";
+            }
+        }
+        </script>
+    </body>
+</html>
