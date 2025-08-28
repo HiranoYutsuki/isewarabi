@@ -28,7 +28,7 @@ function App() {
   const canvasRef = useRef(null)
   const [quizId, setQuizId] = useState(null)
   const [selected, setSelected] = useState(null)
-  const [showExplanation, setShowExplanation] = useState(false)
+  const [scannedUrl, setScannedUrl] = useState(null)
 
 
   useEffect(() => {
@@ -52,7 +52,7 @@ function App() {
     const scanQRCode = () => {
       const video = videoRef.current
       const canvas = canvasRef.current
-      if (video && canvas && !quizId) {
+      if (video && canvas && !quizId && !scannedUrl) {
         const ctx = canvas.getContext('2d')
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
@@ -61,6 +61,8 @@ function App() {
           // QRコードの内容がクイズIDなら表示
           if (quizzes[code.data]) {
             setQuizId(code.data)
+          } else if (/^https?:\/\/.+/.test(code.data)) {
+            setScannedUrl(code.data)
           }
         }
       }
@@ -80,7 +82,7 @@ function App() {
         videoRef.current.removeEventListener('play', startScan)
       }
     }
-  }, [quizId]) 
+  }, [quizId, scannedUrl])
 
     // クイズ選択肢クリック時
   const handleChoice = (idx) => {
@@ -90,6 +92,14 @@ function App() {
 
   // クイズ画面に戻る
   const handleBack = () => {
+    setQuizId(null)
+    setSelected(null)
+    setShowExplanation(false)
+  }
+  
+  // QRコード画面に戻る
+  const handleBackToScan = () => {
+    setScannedUrl(null)
     setQuizId(null)
     setSelected(null)
     setShowExplanation(false)
@@ -146,10 +156,20 @@ function App() {
           )}
         </div>
       )}
-      {!quizId && (
+      {!quizId && !scannedUrl && (
         <p className="read-the-docs">
           QRコードをかざすとクイズが表示されます
         </p>
+      )}
+      {scannedUrl && (
+        <div style={{ marginTop: 20 }}>
+          <h3>QRコードから取得したURL</h3>
+          <a href={scannedUrl} target="_blank" rel="noopener noreferrer">
+            {scannedUrl}
+          </a>
+          <br />
+          <button onClick={handleBackToScan}>戻る</button>
+        </div>
       )}
     </>
   )
