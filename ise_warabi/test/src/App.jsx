@@ -36,7 +36,7 @@ function App() {
     let stream
 
     navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { ideal: 'environment' } }
+      video: { facingMode: 'environment' } // ←ここを修正
     })
       .then(s => {
         stream = s
@@ -80,7 +80,7 @@ function App() {
         videoRef.current.removeEventListener('play', startScan)
       }
     }
-  }, [quizId])
+  }, [quizId]) 
 
     // クイズ選択肢クリック時
   const handleChoice = (idx) => {
@@ -104,6 +104,7 @@ function App() {
           ref={videoRef}
           autoPlay
           playsInline // iOSでインライン再生
+          muted        // ←追加: 自動再生の安定化
           width="320"
           height="240"
           style={{ border: '1px solid #ccc' }}
