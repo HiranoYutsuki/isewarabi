@@ -1,8 +1,12 @@
 // Header.jsx 側
-function Header({ onShowQRScan, onShowStampPage }) {
+function Header({ onShowHome, onShowQRScan, onShowStampPage }) {
     return (
         <header>
-            <h1>isewarabi</h1>
+            <h1>
+                <a href="#" onClick={(e) => { e.preventDefault(); onShowHome(); }} style={{ color: "#bfa76f", textDecoration: "none" }}>
+                    isewarabi
+                </a>
+            </h1>
             <nav className="header-nav">
                 <ul>
                     <li>

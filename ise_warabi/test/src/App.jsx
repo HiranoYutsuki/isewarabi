@@ -69,7 +69,15 @@ function App() {
   const handleShowStampPage = () => {
     setShowStampPage(true);
   };
-
+  // ホーム画面に戻る関数
+  const handleShowHome = () => {
+    setShowHome(true);
+    setShowStampPage(false);
+    setQuizId(null);
+    setScannedUrl(null);
+    setSelected(null);
+    setShowExplanation(false);
+  };
   
 
   useEffect(() => {
@@ -201,12 +209,12 @@ function App() {
 
   return (
     <>
-      {/* ホーム画面 */}
       {showHome ? (
         <HomePage onStart={() => setShowHome(false)} />
       ) : (
         <>
           <Header
+            onShowHome={handleShowHome}
             onShowQRScan={handleShowQRScan}
             onShowStampPage={handleShowStampPage}
           />
