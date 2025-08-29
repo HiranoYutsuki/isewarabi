@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import Header from './header'
 import StampPage from './components/StampPage'
 import jsQR from 'jsqr'
 import './css/App.css'
@@ -55,6 +56,19 @@ function App() {
   const typingIntervalRef = useRef(null)
   const [showQRScan, setShowQRScan] = useState(false);
   const [showStampPage, setShowStampPage] = useState(false);
+  const handleShowQRScan = () => {
+    setShowStampPage(false);
+    setQuizId(null);
+    setScannedUrl(null);
+    setSelected(null);
+    setShowExplanation(false);
+  };
+
+  const handleShowStampPage = () => {
+    setShowStampPage(true);
+  };
+
+  
 
   useEffect(() => {
   let animationId
@@ -185,15 +199,11 @@ function App() {
 
   return (
     <>
-      {/* スタンプページ表示ボタン */}
-      <button
-        onClick={() => setShowStampPage(true)}
-        style={{ position: "fixed", top: 10, right: 10, zIndex: 1000 }}
-      >
-        スタンプを見る
-      </button>
+      <Header
+        onShowQRScan={handleShowQRScan}
+        onShowStampPage={handleShowStampPage}
+      />
 
-      {/* スタンプページ表示 */}
       {showStampPage ? (
         <StampPage />
       ) : (
