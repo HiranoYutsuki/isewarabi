@@ -50,10 +50,14 @@ function App() {
   const [hideHeader, setHideHeader] = useState(false);
   // 追加する useState
   const [showExplanation, setShowExplanation] = useState(false);
-
+  const [displayedQuestion, setDisplayedQuestion] = useState("")
+  const [isTyping, setIsTyping] = useState(false)
+  const [showChoices, setShowChoices] = useState(false)
+  const typingIntervalRef = useRef(null)
 
 
   useEffect(() => {
+    
     // URLからクイズIDを取得
     const params = new URLSearchParams(window.location.search)
     const urlQuizId = params.get('quiz')
