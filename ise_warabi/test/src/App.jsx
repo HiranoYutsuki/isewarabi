@@ -242,7 +242,7 @@ function App() {
                     }}
                     onClick={handleStopTyping}
                   >
-                    ストップ
+                    答える
                   </button>
                 </div>
               )}
