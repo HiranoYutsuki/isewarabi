@@ -47,11 +47,26 @@ function App() {
   const [quizId, setQuizId] = useState(null)
   const [selected, setSelected] = useState(null)
   const [scannedUrl, setScannedUrl] = useState(null)
+  const [hideHeader, setHideHeader] = useState(false);
 
 
   useEffect(() => {
     let animationId
     let stream
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+        if (window.scrollY > lastScrollY) {
+            // 下にスクロール → ヘッダーを隠す
+            setHideHeader(true);
+        } else {
+            // 上にスクロール → ヘッダーを表示
+            setHideHeader(false);
+        }
+        lastScrollY = window.scrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
 
     navigator.mediaDevices.getUserMedia({
       video: { facingMode: 'environment' } // ←ここを修正
@@ -94,6 +109,7 @@ function App() {
     }
 
     return () => {
+      window.removeEventListener("scroll", handleScroll);
       if (animationId) cancelAnimationFrame(animationId)
       if (stream) stream.getTracks().forEach(track => track.stop())
       if (videoRef.current) {

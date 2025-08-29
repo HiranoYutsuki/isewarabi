@@ -9,6 +9,7 @@ body {
     background-color: #f9f7f2;
     margin: 0;
     padding: 0;
+    padding-top: 80px; /* ← ヘッダー分の余白を追加 */
 }
 
 /* 共通リセット */
@@ -41,7 +42,14 @@ header {
     justify-content: space-between;
     padding: 0 40px;
     z-index: 100;
+    transition: transform 0.3s ease-in-out;
 }
+
+header.hide {
+    transform: translateY(-100%);
+}
+
+
 
 header h1 {
     font-size: 28px;
@@ -91,7 +99,7 @@ nav.site-menu li:hover {
 /* コンテンツ */
 .main {
     max-width: 1000px;
-    margin: 100px auto 60px auto;
+    margin: 40px auto 60px auto; /* ← 100px → 40px に調整 */
     padding: 0 20px;
 }
 .section {
@@ -161,26 +169,29 @@ footer p {
     margin-bottom: 20px;
 }
 .footer-logo img {
-  width: 200px; /* sample5: 神宮の紋や和模様 */
+    width: 200px; /* sample5: 神宮の紋や和模様 */
     height: auto;
 }
 
 /* レスポンシブ */
 @media (max-width: 768px) {
+    body {
+        padding-top: 60px; /* ← ヘッダーが小さいときの余白 */
+    }
     header {
-    height: 60px;
-    padding: 0 20px;
+        height: 60px;
+        padding: 0 20px;
     }
     header h1 {
-    font-size: 20px;
+        font-size: 20px;
     }
     nav.site-menu ul {
-    gap: 20px;
+        gap: 20px;
     }
     .first-view-text h1 {
-    font-size: 36px;
+        font-size: 36px;
     }
     .main {
-    margin-top: 80px;
+        margin-top: 40px; /* ← スマホでも余白調整 */
     }
 }
