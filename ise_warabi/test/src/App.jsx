@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import Header from './header'
+import Footer from './footer';
 import StampPage from './components/StampPage'
 import HomePage from './components/HomePage'
 import jsQR from 'jsqr'
@@ -42,37 +43,47 @@ const quizzes = {
 }
 
 function App() {
-  
   const videoRef = useRef(null)
   const canvasRef = useRef(null)
   const [quizId, setQuizId] = useState(null)
   const [selected, setSelected] = useState(null)
   const [scannedUrl, setScannedUrl] = useState(null)
-  const [hideHeader, setHideHeader] = useState(false);
-  const [showHome, setShowHome] = useState(true);
-  // 追加する useState
+  const [showHome, setShowHome] = useState(true)
+  const [showStampPage, setShowStampPage] = useState(false)
+  const [showQRScan, setShowQRScan] = useState(false)
   const [showExplanation, setShowExplanation] = useState(false);
   const [displayedQuestion, setDisplayedQuestion] = useState("")
   const [isTyping, setIsTyping] = useState(false)
   const [showChoices, setShowChoices] = useState(false)
   const typingIntervalRef = useRef(null)
-  const [showQRScan, setShowQRScan] = useState(false);
-  const [showStampPage, setShowStampPage] = useState(false);
-  const handleShowQRScan = () => {
+
+  // ホーム画面に戻る関数
+  const handleShowHome = () => {
+    setShowHome(true);
     setShowStampPage(false);
+    setShowQRScan(false);
     setQuizId(null);
     setScannedUrl(null);
     setSelected(null);
     setShowExplanation(false);
   };
 
+  // スタンプページ表示
   const handleShowStampPage = () => {
+    setShowHome(false);
     setShowStampPage(true);
+    setShowQRScan(false);
+    setQuizId(null);
+    setScannedUrl(null);
+    setSelected(null);
+    setShowExplanation(false);
   };
-  // ホーム画面に戻る関数
-  const handleShowHome = () => {
-    setShowHome(true);
+
+  // QRコード画面表示
+  const handleShowQRScan = () => {
+    setShowHome(false);
     setShowStampPage(false);
+    setShowQRScan(true);
     setQuizId(null);
     setScannedUrl(null);
     setSelected(null);
@@ -207,10 +218,13 @@ function App() {
   }
 
 
-  return (
+return (
     <>
       {showHome ? (
-        <HomePage onStart={() => setShowHome(false)} />
+        <HomePage
+          onStart={handleShowQRScan}
+          onShowStampPage={handleShowStampPage}
+        />
       ) : (
         <>
           <Header
@@ -218,40 +232,37 @@ function App() {
             onShowQRScan={handleShowQRScan}
             onShowStampPage={handleShowStampPage}
           />
-
           {showStampPage ? (
             <StampPage />
+          ) : showQRScan ? (
+            <div style={{ textAlign: "center", marginTop: 20 }}>
+              <h2>QRコードをかざしてください</h2>
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                width="320"
+                height="240"
+                style={{ border: '2px solid #1976d2', borderRadius: "8px" }}
+              />
+              <canvas
+                ref={canvasRef}
+                width="320"
+                height="240"
+                style={{ display: 'none' }}
+              />
+              <div style={{
+                marginTop: 10,
+                color: "#1976d2",
+                fontWeight: "bold"
+              }}>
+                カメラにQRコードをかざすとクイズが始まります
+              </div>
+              {/* QRコード画面からホームに戻るボタンなど必要なら追加 */}
+            </div>
           ) : (
             <>
-              {/* QRコード読み取り画面はクイズ未選択時のみ表示 */}
-              {!quizId && !scannedUrl && (
-                <div style={{ textAlign: "center", marginTop: 20 }}>
-                  <h2>QRコードをかざしてください</h2>
-                  <video
-                    ref={videoRef}
-                    autoPlay
-                    playsInline
-                    muted
-                    width="320"
-                    height="240"
-                    style={{ border: '2px solid #1976d2', borderRadius: "8px" }}
-                  />
-                  <canvas
-                    ref={canvasRef}
-                    width="320"
-                    height="240"
-                    style={{ display: 'none' }}
-                  />
-                  <div style={{
-                    marginTop: 10,
-                    color: "#1976d2",
-                    fontWeight: "bold"
-                  }}>
-                    カメラにQRコードをかざすとクイズが始まります
-                  </div>
-                </div>
-              )}
-
               {/* クイズ表示 */}
               {quizId && quizzes[quizId] && (
                 <div className="quiz-screen">
@@ -331,6 +342,7 @@ function App() {
           )}
         </>
       )}
+      <Footer />
     </>
   )
 }

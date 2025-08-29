@@ -1,4 +1,6 @@
 import React from 'react';
+import Header from '../header';
+import Footer from '../footer';
 
 const story = [
   {
@@ -25,64 +27,67 @@ const story = [
 
 function HomePage({ onStart }) {
   return (
-    <div style={{
-      maxWidth: 700,
-      margin: "3em auto",
-      background: "rgba(245,236,220,0.95)",
-      borderRadius: "1.5em",
-      boxShadow: "0 2px 16px rgba(34,27,21,0.12)",
-      padding: "2em",
-      fontFamily: "'Noto Serif JP', 'Yu Mincho', serif"
-    }}>
-      <h1 style={{
-        textAlign: "center",
-        color: "#bfa76f",
-        fontSize: "2em",
-        marginBottom: "1.5em"
-      }}>伊勢神宮 猫とわらび餅の物語</h1>
-      {story.map((scene, idx) => (
-        <div key={idx} style={{ marginBottom: "2em" }}>
-          <h2 style={{
-            color: "#4c3a1a",
-            fontSize: "1.2em",
-            marginBottom: "0.5em",
-            borderLeft: "6px solid #bfa76f",
-            paddingLeft: "0.7em"
-          }}>{scene.title}</h2>
-          <p style={{
-            color: "#222",
-            fontSize: "1.1em",
-            lineHeight: "1.7",
-            letterSpacing: "0.03em"
-          }}>{scene.text}</p>
-          {idx < story.length - 1 && (
-            <div style={{
-              textAlign: "center",
-              color: "#bfa76f",
-              fontSize: "1.5em",
-              margin: "1.5em 0"
-            }}>⸻</div>
-          )}
+    <>
+      <Header />
+      <div style={{
+        maxWidth: 700,
+        margin: "3em auto",
+        background: "rgba(245,236,220,0.95)",
+        borderRadius: "1.5em",
+        boxShadow: "0 2px 16px rgba(34,27,21,0.12)",
+        padding: "2em",
+        fontFamily: "'Noto Serif JP', 'Yu Mincho', serif"
+      }}>
+        <h1 style={{
+          textAlign: "center",
+          color: "#bfa76f",
+          fontSize: "2em",
+          marginBottom: "1.5em"
+        }}>伊勢神宮 猫とわらび餅の物語</h1>
+        {story.map((scene, idx) => (
+          <div key={idx} style={{ marginBottom: "2em" }}>
+            <h2 style={{
+              color: "#4c3a1a",
+              fontSize: "1.2em",
+              marginBottom: "0.5em",
+              borderLeft: "6px solid #bfa76f",
+              paddingLeft: "0.7em"
+            }}>{scene.title}</h2>
+            <p style={{
+              color: "#222",
+              fontSize: "1.1em",
+              lineHeight: "1.7",
+              letterSpacing: "0.03em"
+            }}>{scene.text}</p>
+            {idx < story.length - 1 && (
+              <div style={{
+                textAlign: "center",
+                color: "#bfa76f",
+                fontSize: "1.5em",
+                margin: "1.5em 0"
+              }}>⸻</div>
+            )}
+          </div>
+        ))}
+        <div style={{ textAlign: "center", marginTop: "2em" }}>
+          <button
+            onClick={onStart}
+            style={{
+              background: "#bfa76f",
+              color: "#fff",
+              fontSize: "1.2em",
+              border: "none",
+              borderRadius: "1em",
+              padding: "0.8em 2em",
+              cursor: "pointer",
+              boxShadow: "0 2px 8px rgba(34,27,21,0.10)"
+            }}
+          >
+            参拝の旅を始める
+          </button>
         </div>
-      ))}
-      <div style={{ textAlign: "center", marginTop: "2em" }}>
-        <button
-          onClick={onStart}
-          style={{
-            background: "#bfa76f",
-            color: "#fff",
-            fontSize: "1.2em",
-            border: "none",
-            borderRadius: "1em",
-            padding: "0.8em 2em",
-            cursor: "pointer",
-            boxShadow: "0 2px 8px rgba(34,27,21,0.10)"
-          }}
-        >
-          参拝の旅を始める
-        </button>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -1,4 +1,3 @@
-// Header.jsx 側
 function Header({ onShowHome, onShowQRScan, onShowStampPage }) {
     return (
         <header>
