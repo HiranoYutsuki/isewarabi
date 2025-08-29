@@ -187,44 +187,13 @@ function App() {
 
   return (
     <>
-
-      {/* QRコード読み取り画面はクイズ未選択時のみ表示 */}
-      {!quizId && !scannedUrl && (
-        <div className="qr-scan-area" style={{ textAlign: "center", marginTop: 20 }}>
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            muted
-            width="320"
-            height="240"
-            style={{ border: '2px solid #1976d2', borderRadius: "8px" }}
-          />
-          <canvas
-            ref={canvasRef}
-            width="320"
-            height="240"
-            style={{ display: 'none' }}
-          />
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              setShowQRScan(false);
-            }}
-            className="close-link"
-          >
-            閉じる
-          </a>        
-          <div style={{
-            marginTop: 10,
-            color: "#1976d2",
-            fontWeight: "bold"
-          }}>
-            カメラにQRコードをかざすとクイズが始まります
-          </div>
-        </div>
-      )}
+      {/* スタンプページ表示ボタン */}
+      <button
+        onClick={() => setShowStampPage(true)}
+        style={{ position: "fixed", top: 10, right: 10, zIndex: 1000 }}
+      >
+        スタンプを見る
+      </button>
 
       {/* スタンプページ表示 */}
       {showStampPage ? (
@@ -257,50 +226,6 @@ function App() {
               }}>
                 カメラにQRコードをかざすとクイズが始まります
               </div>
-
-              {/* ストップボタン */}
-              {!showChoices && isTyping && (
-                <div style={{
-                  position: "fixed",
-                  left: "50%",
-                  bottom: "40px",
-                  transform: "translateX(-50%)",
-                  zIndex: 10
-                }}>
-                  <button
-                    style={{
-                      fontSize: "1.2em",
-                      padding: "0.7em 2em",
-                      borderRadius: "2em",
-                      background: "#dec775ff",
-                      color: "#fff",
-                      border: "none",
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
-                    }}
-                    onClick={handleStopTyping}
-                  >
-                    答える
-                  </button>
-                </div>
-              )}
-
-              {(showChoices || !isTyping) && (
-                <ul className="quiz-choices">
-                  {quizzes[quizId].choices.map((choice, idx) => (
-                    <li key={idx}>
-                      <button onClick={() => handleChoice(idx)}>{choice}</button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </>
-          ) : (
-            <div className="explanation-box">
-              <div className="explanation-result">
-                {selected === quizzes[quizId].answer ? "正解" : "不正解"}
-              </div>
-              <div>{quizzes[quizId].explanation}</div>
-              <button className="back-button" onClick={handleBack}>戻る</button>
             </div>
           )}
 
@@ -309,19 +234,77 @@ function App() {
             <div className="quiz-screen">
               {!showExplanation ? (
                 <>
-                  {/* 質問文 */}
                   <div className="quiz-question">
                     <h3>
                       {displayedQuestion}
                       {isTyping && <span className="blinking-cursor">|</span>}
                     </h3>
                   </div>
+                  {!showChoices && isTyping && (
+                    <div style={{
+                      position: "fixed",
+                      left: "50%",
+                      bottom: "40px",
+                      transform: "translateX(-50%)",
+                      zIndex: 10
+                    }}>
+                      <button
+                        style={{
+                          fontSize: "1.2em",
+                          padding: "0.7em 2em",
+                          borderRadius: "2em",
+                          background: "#1976d2",
+                          color: "#fff",
+                          border: "none",
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
+                        }}
+                        onClick={handleStopTyping}
+                      >
+                        答える
+                      </button>
+                    </div>
+                  )}
+                  {(showChoices || !isTyping) && (
+                    <ul className="quiz-choices">
+                      {quizzes[quizId].choices.map((choice, idx) => (
+                        <li key={idx}>
+                          <button onClick={() => handleChoice(idx)}>{choice}</button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </>
+              ) : (
+                <div className="explanation-box">
+                  <div className="explanation-result">
+                    {selected === quizzes[quizId].answer ? "正解" : "不正解"}
+                  </div>
+                  <div>{quizzes[quizId].explanation}</div>
+                  <button className="back-button" onClick={handleBack}>戻る</button>
+                </div>
+              )}
+            </div>
+          )}
 
-      {/* 初期案内文（QRコード未読時のみ） */}
-      {!quizId && !scannedUrl && (
-        <p className="read-the-docs">
-          ※カメラの使用を許可してください
-        </p>
+          {/* URL表示時の案内文追加 */}
+          {scannedUrl && (
+            <div style={{ marginTop: 20 }}>
+              <h3>QRコードから取得したURL</h3>
+              <a href={scannedUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: "1.2em", color: "#1976d2", textDecoration: "underline" }}>
+                ここをクリック
+              </a>
+              <br />
+              <button onClick={handleBackToScan}>戻る</button>
+            </div>
+          )}
+
+          {/* 初期案内文（QRコード未読時のみ） */}
+          {!quizId && !scannedUrl && (
+            <p className="read-the-docs">
+              ※カメラの使用を許可してください
+            </p>
+          )}
+        </>
       )}
     </>
   )
