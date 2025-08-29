@@ -8,6 +8,7 @@ import './css/App.css'
 // クイズデータ（ローカル定義）
 const quizzes = {
   "quiz1": {
+<<<<<<< HEAD
     question: "伊勢神宮は、2つの宮から成り立っています。食べ物や衣など“衣食住”を司る神様を祀っているのは、内宮と外宮どちらでしょう？",
     choices: ["内宮", "外宮"],
     answer: 1,
@@ -36,6 +37,18 @@ const quizzes = {
     choices: ["信玄餅", "さくら餅", "わらび餅"],
     answer: 2,
     explanation: "伊勢地域は「赤福」など和菓子文化も盛んで、参拝のあとの甘味は旅の楽しみのひとつです。わらび餅を取り戻したあなたも、無事に参拝の旅を終えることができました。"
+=======
+    question: "日本の首都はどこ？",
+    choices: ["大阪", "東京", "京都", "福岡"],
+    answer: 1,
+    explanation: "日本の首都は東京です。"
+  },
+  "quiz2": {
+    question: "富士山の標高は？",
+    choices: ["2,776m", "3,776m", "4,776m", "5,776m"],
+    answer: 1,
+    explanation: "富士山の標高は3,776mです。"
+>>>>>>> 9031d8cb67d7c482edcff11c506b81cf91d90e86
   }
   // 必要に応じて追加
 }
@@ -46,7 +59,11 @@ function App() {
   const canvasRef = useRef(null)
   const [quizId, setQuizId] = useState(null)
   const [selected, setSelected] = useState(null)
+<<<<<<< HEAD
   const [showExplanation, setShowExplanation] = useState(false)
+=======
+  const [scannedUrl, setScannedUrl] = useState(null)
+>>>>>>> 9031d8cb67d7c482edcff11c506b81cf91d90e86
 
 
   useEffect(() => {
@@ -54,7 +71,7 @@ function App() {
     let stream
 
     navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { ideal: 'environment' } }
+      video: { facingMode: 'environment' } // ←ここを修正
     })
       .then(s => {
         stream = s
@@ -70,7 +87,11 @@ function App() {
     const scanQRCode = () => {
       const video = videoRef.current
       const canvas = canvasRef.current
+<<<<<<< HEAD
       if (video && canvas && !quizId) {
+=======
+      if (video && canvas && !quizId && !scannedUrl) {
+>>>>>>> 9031d8cb67d7c482edcff11c506b81cf91d90e86
         const ctx = canvas.getContext('2d')
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
@@ -79,6 +100,11 @@ function App() {
           // QRコードの内容がクイズIDなら表示
           if (quizzes[code.data]) {
             setQuizId(code.data)
+<<<<<<< HEAD
+=======
+          } else if (/^https?:\/\/.+/.test(code.data)) {
+            setScannedUrl(code.data)
+>>>>>>> 9031d8cb67d7c482edcff11c506b81cf91d90e86
           }
         }
       }
@@ -98,7 +124,11 @@ function App() {
         videoRef.current.removeEventListener('play', startScan)
       }
     }
+<<<<<<< HEAD
   }, [quizId])
+=======
+  }, [quizId, scannedUrl])
+>>>>>>> 9031d8cb67d7c482edcff11c506b81cf91d90e86
 
     // クイズ選択肢クリック時
   const handleChoice = (idx) => {
@@ -112,6 +142,17 @@ function App() {
     setSelected(null)
     setShowExplanation(false)
   }
+<<<<<<< HEAD
+=======
+  
+  // QRコード画面に戻る
+  const handleBackToScan = () => {
+    setScannedUrl(null)
+    setQuizId(null)
+    setSelected(null)
+    setShowExplanation(false)
+  }
+>>>>>>> 9031d8cb67d7c482edcff11c506b81cf91d90e86
 
   return (
     <>
@@ -122,6 +163,7 @@ function App() {
           ref={videoRef}
           autoPlay
           playsInline // iOSでインライン再生
+          muted        // ←追加: 自動再生の安定化
           width="320"
           height="240"
           style={{ border: '1px solid #ccc' }}
@@ -163,11 +205,28 @@ function App() {
           )}
         </div>
       )}
+<<<<<<< HEAD
       {!quizId && (
+=======
+      {!quizId && !scannedUrl && (
+>>>>>>> 9031d8cb67d7c482edcff11c506b81cf91d90e86
         <p className="read-the-docs">
           QRコードをかざすとクイズが表示されます
         </p>
       )}
+<<<<<<< HEAD
+=======
+      {scannedUrl && (
+        <div style={{ marginTop: 20 }}>
+          <h3>QRコードから取得したURL</h3>
+          <a href={scannedUrl} target="_blank" rel="noopener noreferrer">
+            {scannedUrl}
+          </a>
+          <br />
+          <button onClick={handleBackToScan}>戻る</button>
+        </div>
+      )}
+>>>>>>> 9031d8cb67d7c482edcff11c506b81cf91d90e86
     </>
   )
 }
