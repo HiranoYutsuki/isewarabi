@@ -1,42 +1,112 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
+.quiz-screen {
+  background: rgba(34, 27, 21, 0.85);
+  color: #f8f4e6;
   padding: 2em;
+  border-radius: 1em;
+  margin: 2em auto;
+  max-width: 600px;
+  box-shadow: 0 2px 12px rgba(34,27,21,0.25);
+  font-family: 'Noto Serif JP', 'Yu Mincho', serif;
+  border: 2px solid #bfa76f;
 }
 
-.read-the-docs {
-  color: #888;
+.quiz-question {
+  font-size: 1.25em;
+  font-family: 'Noto Serif JP', 'Yu Mincho', serif;
+  color: #e5d9c5;
+  margin-bottom: 1.5em;
+  letter-spacing: 0.05em;
+  line-height: 1.7;
+  text-shadow: 0 1px 0 #bfa76f;
+}
+
+.quiz-choices {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2em;
+}
+
+.quiz-choices li {
+  margin-bottom: 1em;
+}
+
+.quiz-choices button {
+  background: linear-gradient(90deg, #e5d9c5 80%, #bfa76f 100%);
+  color: #222;
+  border: 1px solid #bfa76f;
+  border-radius: 0.7em;
+  padding: 0.7em 1.5em;
+  font-size: 1.1em;
+  font-family: 'Noto Serif JP', 'Yu Mincho', serif;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(34,27,21,0.10);
+}
+
+.quiz-choices button:hover {
+  background: #bfa76f;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(34,27,21,0.18);
+}
+
+.explanation-box {
+  background: rgba(245, 236, 220, 0.95);
+  color: #4c3a1a;
+  border: 2px solid #bfa76f;
+  border-radius: 1em;
+  padding: 1.5em;
+  margin-top: 2em;
+  font-family: 'Noto Serif JP', 'Yu Mincho', serif;
+  box-shadow: 0 2px 12px rgba(34,27,21,0.10);
+  position: relative;
+}
+
+.explanation-box::before {
+  content: "解説";
+  position: absolute;
+  top: -1.2em;
+  left: 1em;
+  background: #bfa76f;
+  color: #fff;
+  padding: 0.2em 1em;
+  border-radius: 1em 1em 0 0;
+  font-size: 1em;
+  font-family: inherit;
+  letter-spacing: 0.1em;
+}
+
+.explanation-result {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #bfa76f;
+  margin-bottom: 1em;
+  font-family: inherit;
+}
+
+.back-button {
+  background: #bfa76f;
+  color: #222;
+  border: none;
+  border-radius: 0.7em;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 1.5em;
+  transition: background 0.2s, color 0.2s;
+}
+
+.back-button:hover {
+  background: #e5d9c5;
+  color: #bfa76f;
+}
+
+.read-the-docs{
+  text-align: center;
+  color: #888; /* 灰色文字 */
+  font-size: 1.2em;
+  margin-top: 4em;
+  font-family: 'Noto Serif JP', 'Yu Mincho', serif;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
 }

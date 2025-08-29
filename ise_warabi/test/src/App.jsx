@@ -212,16 +212,22 @@ function App() {
           </div>
         </div>
       )}
+        </div>
+      )}
 
       {/* クイズ表示 */}
       {quizId && quizzes[quizId] && (
-        <div style={{ marginTop: 20, position: "relative" }}>
+        <div className="quiz-screen">
           {!showExplanation ? (
             <>
-              <h3 style={{ minHeight: "4em" }}>
+              {/* 質問文 */}
+              <div className="quiz-question">
                 {displayedQuestion}
                 {isTyping && <span className="blinking-cursor">|</span>}
               </h3>
+              </div>
+
+              {/* ストップボタン */}
               {!showChoices && isTyping && (
                 <div style={{
                   position: "fixed",
@@ -246,45 +252,35 @@ function App() {
                   </button>
                 </div>
               )}
+
               {(showChoices || !isTyping) && (
-                <ul style={{ listStyle: "none", padding: 0 }}>
+                <ul className="quiz-choices">
                   {quizzes[quizId].choices.map((choice, idx) => (
-                    <li key={idx} style={{ margin: "1em 0" }}>
-                      <button
-                        style={{
-                          fontSize: "1em",
-                          padding: "0.5em 1.5em",
-                          borderRadius: "1em",
-                          background: "#fff",
-                          border: "2px solid #1976d2",
-                          color: "#1976d2",
-                          cursor: "pointer"
-                        }}
-                        onClick={() => handleChoice(idx)}
-                      >
-                        {choice}
-                      </button>
+                    <li key={idx}>
+                      <button onClick={() => handleChoice(idx)}>{choice}</button>
                     </li>
                   ))}
                 </ul>
               )}
             </>
           ) : (
-            <>
-              <h3>解答・解説</h3>
-              <p>
-                {selected === quizzes[quizId].answer
-                  ? "正解！"
-                  : "不正解"}
-              </p>
-              <p>{quizzes[quizId].explanation}</p>
-              <button onClick={handleBack}>戻る</button>
-            </>
+            <div className="explanation-box">
+              <div className="explanation-result">
+                {selected === quizzes[quizId].answer ? "正解" : "不正解"}
+              </div>
+              <div>{quizzes[quizId].explanation}</div>
+              <button className="back-button" onClick={handleBack}>戻る</button>
+            </div>
           )}
         </div>
       )}
 
-      {/* URL表示時の案内文追加 */}
+      {/* URL表示時の案内文追加 / 初期表示 */}
+      {!quizId && !scannedUrl && (
+        <p className="read-the-docs">
+          QRコードをかざすとクイズが表示されます
+        </p>
+      )}
       {scannedUrl && (
         <div style={{ marginTop: 20 }}>
           <h3>QRコードから取得したURL</h3>
