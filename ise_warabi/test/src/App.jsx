@@ -1,7 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
 import StampPage from './components/StampPage'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import jsQR from 'jsqr'
 import './css/App.css'
 
