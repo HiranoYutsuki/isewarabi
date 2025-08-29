@@ -100,3 +100,13 @@
   background: #e5d9c5;
   color: #bfa76f;
 }
+
+.read-the-docs{
+  text-align: center;
+  color: #888; /* 灰色文字 */
+  font-size: 1.2em;
+  margin-top: 4em;
+  font-family: 'Noto Serif JP', 'Yu Mincho', serif;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+}
