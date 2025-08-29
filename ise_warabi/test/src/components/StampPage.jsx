@@ -20,7 +20,7 @@ function StampPage() {
         スタンプ: {count} / 5
       </div>
       {count >= 5 && (
-        <img src="/stamp_clear.png" alt="コンプリート画像" style={{ width: 200 }} />
+        <img src="../images/stamp_clear.png" alt="コンプリート画像" style={{ width: 200 }} />
       )}
       <button onClick={handleReset}>スタンプをリセット</button>
     </div>
