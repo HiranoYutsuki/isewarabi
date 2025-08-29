@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import StampPage from './components/StampPage'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import jsQR from 'jsqr'
@@ -54,7 +55,7 @@ function App() {
   const [isTyping, setIsTyping] = useState(false)
   const [showChoices, setShowChoices] = useState(false)
   const typingIntervalRef = useRef(null)
-
+  const [showStampPage, setShowStampPage] = useState(false);
 
   useEffect(() => {
   let animationId
@@ -182,117 +183,129 @@ function App() {
     setShowExplanation(false)
   }
 
-  // ...省略...
+
 
   return (
     <>
-      {/* QRコード読み取り画面はクイズ未選択時のみ表示 */}
-      {!quizId && !scannedUrl && (
-        <div style={{ textAlign: "center", marginTop: 20 }}>
-          <h2>QRコードをかざしてください</h2>
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            muted
-            width="320"
-            height="240"
-            style={{ border: '2px solid #1976d2', borderRadius: "8px" }}
-          />
-          <canvas
-            ref={canvasRef}
-            width="320"
-            height="240"
-            style={{ display: 'none' }}
-          />
-          <div style={{
-            marginTop: 10,
-            color: "#1976d2",
-            fontWeight: "bold"
-          }}>
-            カメラにQRコードをかざすとクイズが始まります
-          </div>
-        </div>
-      )}
+      {/* スタンプページ表示ボタン */}
+      <button onClick={() => setShowStampPage(true)} style={{ position: "fixed", top: 10, right: 10 }}>
+        スタンプを見る
+      </button>
 
-      {/* クイズ表示 */}
-      {quizId && quizzes[quizId] && (
-        <div className="quiz-screen">
-          {!showExplanation ? (
-            <>
-              {/* 質問文 */}
-              <div className="quiz-question">
-                <h3>
-                  {displayedQuestion}
-                  {isTyping && <span className="blinking-cursor">|</span>}
-                </h3>
+      {/* スタンプページ表示 */}
+      {showStampPage ? (
+        <StampPage />
+      ) : (
+        <>
+          {/* QRコード読み取り画面はクイズ未選択時のみ表示 */}
+          {!quizId && !scannedUrl && (
+            <div style={{ textAlign: "center", marginTop: 20 }}>
+              <h2>QRコードをかざしてください</h2>
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                width="320"
+                height="240"
+                style={{ border: '2px solid #1976d2', borderRadius: "8px" }}
+              />
+              <canvas
+                ref={canvasRef}
+                width="320"
+                height="240"
+                style={{ display: 'none' }}
+              />
+              <div style={{
+                marginTop: 10,
+                color: "#1976d2",
+                fontWeight: "bold"
+              }}>
+                カメラにQRコードをかざすとクイズが始まります
               </div>
-
-              {/* ストップボタン */}
-              {!showChoices && isTyping && (
-                <div style={{
-                  position: "fixed",
-                  left: "50%",
-                  bottom: "40px",
-                  transform: "translateX(-50%)",
-                  zIndex: 10
-                }}>
-                  <button
-                    style={{
-                      fontSize: "1.2em",
-                      padding: "0.7em 2em",
-                      borderRadius: "2em",
-                      background: "#1976d2",
-                      color: "#fff",
-                      border: "none",
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
-                    }}
-                    onClick={handleStopTyping}
-                  >
-                    答える
-                  </button>
-                </div>
-              )}
-
-              {(showChoices || !isTyping) && (
-                <ul className="quiz-choices">
-                  {quizzes[quizId].choices.map((choice, idx) => (
-                    <li key={idx}>
-                      <button onClick={() => handleChoice(idx)}>{choice}</button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </>
-          ) : (
-            <div className="explanation-box">
-              <div className="explanation-result">
-                {selected === quizzes[quizId].answer ? "正解" : "不正解"}
-              </div>
-              <div>{quizzes[quizId].explanation}</div>
-              <button className="back-button" onClick={handleBack}>戻る</button>
             </div>
           )}
-        </div>
-      )}
 
-      {/* URL表示時の案内文追加 */}
-      {scannedUrl && (
-        <div style={{ marginTop: 20 }}>
-          <h3>QRコードから取得したURL</h3>
-          <a href={scannedUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: "1.2em", color: "#1976d2", textDecoration: "underline" }}>
-            ここをクリック
-          </a>
-          <br />
-          <button onClick={handleBackToScan}>戻る</button>
-        </div>
-      )}
+          {/* クイズ表示 */}
+          {quizId && quizzes[quizId] && (
+            <div className="quiz-screen">
+              {!showExplanation ? (
+                <>
+                  {/* 質問文 */}
+                  <div className="quiz-question">
+                    <h3>
+                      {displayedQuestion}
+                      {isTyping && <span className="blinking-cursor">|</span>}
+                    </h3>
+                  </div>
 
-      {/* 初期案内文（QRコード未読時のみ） */}
-      {!quizId && !scannedUrl && (
-        <p className="read-the-docs">
-          QRコードをかざすとクイズが表示されます
-        </p>
+                  {/* ストップボタン */}
+                  {!showChoices && isTyping && (
+                    <div style={{
+                      position: "fixed",
+                      left: "50%",
+                      bottom: "40px",
+                      transform: "translateX(-50%)",
+                      zIndex: 10
+                    }}>
+                      <button
+                        style={{
+                          fontSize: "1.2em",
+                          padding: "0.7em 2em",
+                          borderRadius: "2em",
+                          background: "#1976d2",
+                          color: "#fff",
+                          border: "none",
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
+                        }}
+                        onClick={handleStopTyping}
+                      >
+                        答える
+                      </button>
+                    </div>
+                  )}
+
+                  {(showChoices || !isTyping) && (
+                    <ul className="quiz-choices">
+                      {quizzes[quizId].choices.map((choice, idx) => (
+                        <li key={idx}>
+                          <button onClick={() => handleChoice(idx)}>{choice}</button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </>
+              ) : (
+                <div className="explanation-box">
+                  <div className="explanation-result">
+                    {selected === quizzes[quizId].answer ? "正解" : "不正解"}
+                  </div>
+                  <div>{quizzes[quizId].explanation}</div>
+                  <button className="back-button" onClick={handleBack}>戻る</button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* URL表示時の案内文追加 */}
+          {scannedUrl && (
+            <div style={{ marginTop: 20 }}>
+              <h3>QRコードから取得したURL</h3>
+              <a href={scannedUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: "1.2em", color: "#1976d2", textDecoration: "underline" }}>
+                ここをクリック
+              </a>
+              <br />
+              <button onClick={handleBackToScan}>戻る</button>
+            </div>
+          )}
+
+          {/* 初期案内文（QRコード未読時のみ） */}
+          {!quizId && !scannedUrl && (
+            <p className="read-the-docs">
+              QRコードをかざすとクイズが表示されます
+            </p>
+          )}
+        </>
       )}
     </>
   )
