@@ -1,224 +1,186 @@
 @charset "utf-8";
 
-
-nav.floating{
-    position:absolute;
-    top: 100px;
-    left: 50px;
-    background-color: #faeac4;
+/* 全体ベース */
+.body {
+    font-family: "Yuji Mai", "Noto Serif JP", serif;
+    font-size: 16px;
+    color: #2e2e2e;
+    line-height: 1.8;
+    background-color: #f9f7f2;
+    margin: 0;
+    padding: 0;
 }
 
-.first-view {
-    height: calc(100vh - 110px);
-    background-image: url(../images/ise_top.jpg);
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    display: flex;
-    text-align: center;
-    align-items: center;
-}
-
-.first-view-text {
-    width: 100%;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 40px;
-    padding-bottom: 80px;
-    color: #000000;
-    font-weight: bold;
-}
-
-.first-view-text h1 {
-    font-family: "Yuji Mai", sans-serif;
-    font-size: 56px;
-    line-height: 72px;
-}
-
-.first-view-text p {
-    font-size: 18px;
-    margin-top: 20px;
-}
-
-.lead {
-    max-width: 1200px;
-    margin: 60px auto;
-}
-
-*,
-::before,
-::after {
+/* 共通リセット */
+*, ::before, ::after {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
-ul, ol {
-    list-style: none;
-}
-
-a {
+.a {
     color: inherit;
     text-decoration: none;
+    transition: color 0.3s ease;
 }
-
-body {
-    font-family: "Yuji Mai", sans-serif;
-    font-size: 16pt;
-    color: #f10505;
-    line-height: 1;
-    background-color: #fafbee;
-}
-
-img {
-    max-width: 100%;
+.a:hover {
+    color: #8b0000;
 }
 
 /* ヘッダー */
 .header {
-    position: relative;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    background-color: #ffffff;
-    height: 110px;
-    z-index: 10;
-    box-shadow: none;
-}
-
-.header-inner {
-    max-width: 1200px;
-    height: 110px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 40px;
-    padding-right: 40px;
+    height: 80px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-bottom: 2px solid #c8b894;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    z-index: 100;
 }
 
-.toggle-menu-button {
-    display: none;
+.header h1 {
+    font-size: 28px;
+    color: #4b2e1e;
+    letter-spacing: 4px;
 }
 
-.header-logo {
-    display: block;
-    width: 170px;
-}
-
-.header-logo img {
-    height: 50px;      /* ロゴ画像の高さを固定 */
-    width: auto;       /* 幅は画像比率に合わせて調整 */
-    object-fit: contain;
-    display: block;    /* インラインスペース防止 */
-}
-
-.site-menu ul {
+/* ナビゲーション */
+nav.site-menu ul {
     display: flex;
-    margin-bottom: 50px;
-    margin-top: 200px;
-    justify-content: center;
-    padding-left: 0;
+    gap: 40px;
     list-style: none;
 }
-
-.site-menu ul li {
-    margin-left: 40px;
-    margin-right: 40px;
-    line-height: 2.0;
-    border:none;
-    border-bottom: 4px double #d16f6f;
+nav.site-menu li {
     padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+}
+nav.site-menu li:hover {
+    border-bottom: 2px solid #a52a2a;
 }
 
-.copyright{
+/* ファーストビュー */
+.first-view {
+    height: 100vh;
+    background-image: url(../images/sample1.jpg); /* sample1: 伊勢神宮 外観 */
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.first-view-text {
+    color: #fff;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.6);
     text-align: center;
-    line-height: 10;
+}
+.first-view-text h1 {
+    font-size: 60px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.first-view-text p {
+    font-size: 20px;
 }
 
-.site-menu ul li a {
-    font-family: "Yuji Mai", sans-serif;
-}
+/* コンテンツ */
 .main {
-    margin-top: 50px;
-    padding: 20px;
+    max-width: 1000px;
+    margin: 100px auto 60px auto;
+    padding: 0 20px;
+}
+.section {
+    margin-bottom: 80px;
+}
+.section h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #4b2e1e;
+    border-left: 5px solid #a52a2a;
+    padding-left: 15px;
+}
+.section p {
+    margin-bottom: 20px;
+}
+.section img {
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 3px 8px rgba(0,0,0,0.2);
+}
+/* sample2.jpg: 宇治橋, sample3.jpg: 参道, sample4.jpg: わらび餅 */
+
+/* クイズエリア */
+.quiz-box {
+    background-color: #fff;
+    border: 2px solid #d6c7a1;
+    padding: 30px;
+    margin: 40px auto;
+    max-width: 600px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.1);
+}
+.quiz-box h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+.quiz-box button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    background-color: #faf3e0;
+    border: 1px solid #a1866f;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+.quiz-box button:hover {
+    background-color: #e3d7c6;
 }
 
 /* フッター */
-.footer {
-    background-color: #6B4C3B;
-    color: #ffffff;
-    padding: 40px 0;
+footer {
+    background-color: #4b2e1e;
+    color: #fff;
+    padding: 40px 20px;
     text-align: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
+}
+footer p {
+    font-size: 14px;
+    margin-top: 10px;
+}
+.footer-logo {
+    margin-bottom: 20px;
 }
 .footer-logo img {
-    width: 100vw;     /* 画面幅いっぱいに伸ばす */
-    height: 200px;     
-    display: block;   
+  width: 200px; /* sample5: 神宮の紋や和模様 */
+    height: auto;
 }
 
-@media (max-width:800px){
-    .site-menu ul{
-        display:block;
-        text-align:center;
+/* レスポンシブ */
+@media (max-width: 768px) {
+    header {
+    height: 60px;
+    padding: 0 20px;
     }
-
-    .site-menu li{
-        margin-top:20px;
+    header h1 {
+    font-size: 20px;
     }
-
-    .header{
-        position:fixed;
-        top:0;
-        left:0;
-        right:0;
-        background-color: #ffffff;
-        height:50px;
-        z-index:10;
+    nav.site-menu ul {
+    gap: 20px;
     }
-
-    .header-inner{
-        padding-left: 20px;
-        padding-right: 20px;
-        height: 100%;
-        position: relative;
+    .first-view-text h1 {
+    font-size: 36px;
     }
-
-    .header-logo{
-        width:100px;
-    }
-
-    .header-site-menu{
-        position: absolute;
-        top:100%;
-        left: 0;
-        right: 0;
-        color: #ffffff;
-        background-color: #736e62;
-        padding-top: 30px;
-        padding-bottom: 50px;
-        display: none;
-    }
-
-    .header-site-menu.is-show{
-        display:block;
-    }
-
-    .main{
-        padding-top: 50px;
-    }
-
-    .footer-logo{
-        margin-top: 60px;
-    }
-
-    .copyright{
-        margin-top:50px;
+    .main {
+    margin-top: 80px;
     }
 }
-
