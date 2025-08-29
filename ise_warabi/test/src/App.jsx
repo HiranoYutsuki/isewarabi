@@ -204,10 +204,10 @@ function App() {
         />
         <div style={{
           marginTop: 10,
-          color: "#1976d2",
+          color: "#888",
           fontWeight: "bold"
         }}>
-          
+          QRコードをかざすとクイズが表示されます
         </div>
       </div>
       {/* クイズ表示 */}
@@ -274,7 +274,7 @@ function App() {
       {/* 初期表示 */}
       {!quizId && !scannedUrl && (
         <p className="read-the-docs">
-          QRコードをかざすとクイズが表示されます
+          ※カメラの使用を許可してください
         </p>
       )}
       {scannedUrl && (
