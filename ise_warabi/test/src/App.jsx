@@ -207,7 +207,7 @@ function App() {
           color: "#1976d2",
           fontWeight: "bold"
         }}>
-          カメラにQRコードをかざすとクイズが始まります
+          
         </div>
       </div>
       {/* クイズ表示 */}
