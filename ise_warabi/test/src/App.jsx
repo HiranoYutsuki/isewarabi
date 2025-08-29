@@ -121,7 +121,27 @@ function App() {
       videoRef.current.addEventListener('play', startScan)
     }
 
+    // クイズIDがセットされたらタイピング開始
+    if (quizId && quizzes[quizId]) {
+      setDisplayedQuestion("")
+      setIsTyping(true)
+      setShowChoices(false)
+      let i = 0
+      typingIntervalRef.current = setInterval(() => {
+        setDisplayedQuestion(prev => {
+          if (i < quizzes[quizId].question.length) {
+            i++
+            return quizzes[quizId].question.slice(0, i)
+          } else {
+            clearInterval(typingIntervalRef.current)
+            setIsTyping(false)
+            return prev
+          }
+        })
+      }, 50) // 速度調整
+    }
     return () => {
+      clearInterval(typingIntervalRef.current)
       window.removeEventListener("scroll", handleScroll);
       if (animationId) cancelAnimationFrame(animationId)
       if (stream) stream.getTracks().forEach(track => track.stop())
@@ -130,6 +150,14 @@ function App() {
       }
     }
   }, [quizId, scannedUrl])
+
+  // ストップボタンでタイピングを止めて選択肢表示
+  const handleStopTyping = () => {
+    clearInterval(typingIntervalRef.current)
+    setDisplayedQuestion(quizzes[quizId].question)
+    setIsTyping(false)
+    setShowChoices(true)
+  }
 
     // クイズ選択肢クリック時
   const handleChoice = (idx) => {
@@ -154,40 +182,64 @@ function App() {
 
   return (
     <>
-      {/* Webカメラ映像の表示 */}
-      <div>
-        <h2>Webカメラ映像</h2>
-        <video
-          ref={videoRef}
-          autoPlay
-          playsInline // iOSでインライン再生
-          muted        // ←追加: 自動再生の安定化
-          width="320"
-          height="240"
-          style={{ border: '1px solid #ccc' }}
-        />
-        <canvas
-          ref={canvasRef}
-          width="320"
-          height="240"
-          style={{ display: 'none' }}
-        />
-      </div>
-            {/* クイズ表示 */}
+      {/* Webカメラ映像の表示（省略） */}
+      {/* クイズ表示 */}
       {quizId && quizzes[quizId] && (
-        <div style={{ marginTop: 20 }}>
+        <div style={{ marginTop: 20, position: "relative" }}>
           {!showExplanation ? (
             <>
-              <h3>{quizzes[quizId].question}</h3>
-              <ul>
-                {quizzes[quizId].choices.map((choice, idx) => (
-                  <li key={idx}>
-                    <button onClick={() => handleChoice(idx)}>
-                      {choice}
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              <h3 style={{ minHeight: "4em" }}>
+                {displayedQuestion}
+                {isTyping && <span className="blinking-cursor">|</span>}
+              </h3>
+              {/* ストップボタンを下部中央に配置 */}
+              {!showChoices && isTyping && (
+                <div style={{
+                  position: "fixed",
+                  left: "50%",
+                  bottom: "40px",
+                  transform: "translateX(-50%)",
+                  zIndex: 10
+                }}>
+                  <button
+                    style={{
+                      fontSize: "1.2em",
+                      padding: "0.7em 2em",
+                      borderRadius: "2em",
+                      background: "#1976d2",
+                      color: "#fff",
+                      border: "none",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
+                    }}
+                    onClick={handleStopTyping}
+                  >
+                    ストップ
+                  </button>
+                </div>
+              )}
+              {/* 選択肢表示 */}
+              {(showChoices || !isTyping) && (
+                <ul style={{ listStyle: "none", padding: 0 }}>
+                  {quizzes[quizId].choices.map((choice, idx) => (
+                    <li key={idx} style={{ margin: "1em 0" }}>
+                      <button
+                        style={{
+                          fontSize: "1em",
+                          padding: "0.5em 1.5em",
+                          borderRadius: "1em",
+                          background: "#fff",
+                          border: "2px solid #1976d2",
+                          color: "#1976d2",
+                          cursor: "pointer"
+                        }}
+                        onClick={() => handleChoice(idx)}
+                      >
+                        {choice}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </>
           ) : (
             <>
@@ -203,6 +255,8 @@ function App() {
           )}
         </div>
       )}
+
+      {/* 初期表示 */}
       {!quizId && !scannedUrl && (
         <p className="read-the-docs">
           QRコードをかざすとクイズが表示されます
