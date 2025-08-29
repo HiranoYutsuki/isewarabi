@@ -212,8 +212,6 @@ function App() {
           </div>
         </div>
       )}
-        </div>
-      )}
 
       {/* クイズ表示 */}
       {quizId && quizzes[quizId] && (
@@ -224,7 +222,6 @@ function App() {
               <div className="quiz-question">
                 {displayedQuestion}
                 {isTyping && <span className="blinking-cursor">|</span>}
-              </h3>
               </div>
 
               {/* ストップボタン */}
