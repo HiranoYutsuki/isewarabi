@@ -1,6 +1,4 @@
 import { useState, useRef, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import jsQR from 'jsqr'
 import './css/App.css'
 
@@ -54,7 +52,7 @@ function App() {
   const [isTyping, setIsTyping] = useState(false)
   const [showChoices, setShowChoices] = useState(false)
   const typingIntervalRef = useRef(null)
-
+  const [showQRScan, setShowQRScan] = useState(false);
 
   useEffect(() => {
   let animationId
@@ -139,7 +137,7 @@ function App() {
           return prev
         }
       })
-    }, 50)
+    }, 70)
   }
 
   return () => {
@@ -182,13 +180,13 @@ function App() {
     setShowExplanation(false)
   }
 
-  // ...省略...
 
   return (
     <>
+
       {/* QRコード読み取り画面はクイズ未選択時のみ表示 */}
       {!quizId && !scannedUrl && (
-        <div style={{ textAlign: "center", marginTop: 20 }}>
+        <div className="qr-scan-area" style={{ textAlign: "center", marginTop: 20 }}>
           <video
             ref={videoRef}
             autoPlay
@@ -204,6 +202,16 @@ function App() {
             height="240"
             style={{ display: 'none' }}
           />
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              setShowQRScan(false);
+            }}
+            className="close-link"
+          >
+            閉じる
+          </a>        
           <div style={{
             marginTop: 10,
             color: "#1976d2",

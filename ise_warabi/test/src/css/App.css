@@ -110,3 +110,36 @@
   letter-spacing: 0.05em;
   line-height: 1.6;
 }
+
+.qr-scan-area {
+  position: relative;
+  padding: 3em;
+  margin: 2em auto;
+  width: 540px;
+  font-family: 'Noto Serif JP', 'Yu Mincho', serif;
+  text-align: center;
+}
+
+.close-link {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #bfa76f;
+  color: #fff;
+  padding: 0.1em 1em;
+  border-radius: 1em;
+  text-decoration: none;
+  font-size: 0.9em;
+  box-shadow: 0 2px 8px rgba(34,27,21,0.10);
+  transition: background 0.2s, box-shadow 0.2s;
+  border: none;
+  display: inline-block;
+  text-align: center;
+  font-family: 'Noto Serif JP', 'Yu Mincho', serif;
+}
+
+.close-link:hover {
+  background: #e5d9c5;
+  color: #bfa76f;
+}
