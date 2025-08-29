@@ -57,99 +57,101 @@ function App() {
 
 
   useEffect(() => {
-    
-    // URLからクイズIDを取得
+  let animationId
+  let stream
+  let lastScrollY = window.scrollY;
+
+  // スクロールイベント
+  const handleScroll = () => {
+    if (window.scrollY > lastScrollY) {
+      setHideHeader(true);
+    } else {
+      setHideHeader(false);
+    }
+    lastScrollY = window.scrollY;
+  };
+  window.addEventListener("scroll", handleScroll);
+
+  // カメラ起動
+  navigator.mediaDevices.getUserMedia({
+    video: { facingMode: 'environment' }
+  })
+    .then(s => {
+      stream = s
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream
+      }
+    })
+    .catch(err => {
+      console.error('Webカメラの取得に失敗しました:', err)
+    })
+
+  // QRコード解析
+  const scanQRCode = () => {
+    const video = videoRef.current
+    const canvas = canvasRef.current
+    if (video && canvas && !quizId && !scannedUrl) {
+      const ctx = canvas.getContext('2d')
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+      const code = jsQR(imageData.data, canvas.width, canvas.height)
+      if (code && code.data) {
+        // QRコードの内容がクイズIDなら表示
+        if (quizzes[code.data]) {
+          setQuizId(code.data)
+        } else if (/^https?:\/\/.+/.test(code.data)) {
+          setScannedUrl(code.data)
+        }
+      }
+    }
+    animationId = requestAnimationFrame(scanQRCode)
+  }
+  const startScan = () => {
+    scanQRCode()
+  }
+  if (videoRef.current) {
+    videoRef.current.addEventListener('play', startScan)
+  }
+
+  // URLからクイズIDを取得（初回のみ）
+  if (!quizId) {
     const params = new URLSearchParams(window.location.search)
     const urlQuizId = params.get('quiz')
     if (urlQuizId && quizzes[urlQuizId]) {
       setQuizId(urlQuizId)
     }
-    let animationId
-    let stream
-    let lastScrollY = window.scrollY;
+  }
 
-    const handleScroll = () => {
-        if (window.scrollY > lastScrollY) {
-            // 下にスクロール → ヘッダーを隠す
-            setHideHeader(true);
+  // クイズIDがセットされたらタイピング開始
+  if (quizId && quizzes[quizId]) {
+    setDisplayedQuestion("")
+    setIsTyping(true)
+    setShowChoices(false)
+    let i = 0
+    typingIntervalRef.current = setInterval(() => {
+      setDisplayedQuestion(prev => {
+        if (i < quizzes[quizId].question.length) {
+          i++
+          return quizzes[quizId].question.slice(0, i)
         } else {
-            // 上にスクロール → ヘッダーを表示
-            setHideHeader(false);
-        }
-        lastScrollY = window.scrollY;
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    navigator.mediaDevices.getUserMedia({
-      video: { facingMode: 'environment' } // ←ここを修正
-    })
-      .then(s => {
-        stream = s
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream
+          clearInterval(typingIntervalRef.current)
+          setIsTyping(false)
+          return prev
         }
       })
-      .catch(err => {
-        console.error('Webカメラの取得に失敗しました:', err)
-      })
+    }, 50)
+  }
 
-  // QRコード解析
-    const scanQRCode = () => {
-      const video = videoRef.current
-      const canvas = canvasRef.current
-      if (video && canvas && !quizId && !scannedUrl) {
-        const ctx = canvas.getContext('2d')
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-        const code = jsQR(imageData.data, canvas.width, canvas.height)
-        if (code && code.data) {
-          // QRコードの内容がクイズIDなら表示
-          if (quizzes[code.data]) {
-            setQuizId(code.data)
-          } else if (/^https?:\/\/.+/.test(code.data)) {
-            setScannedUrl(code.data)
-          }
-        }
-      }
-      animationId = requestAnimationFrame(scanQRCode)
-    }
-    const startScan = () => {
-      scanQRCode()
-    }
+  return () => {
+    clearInterval(typingIntervalRef.current)
+    window.removeEventListener("scroll", handleScroll);
+    if (animationId) cancelAnimationFrame(animationId)
+    if (stream) stream.getTracks().forEach(track => track.stop())
     if (videoRef.current) {
-      videoRef.current.addEventListener('play', startScan)
+      videoRef.current.removeEventListener('play', startScan)
     }
-
-    // クイズIDがセットされたらタイピング開始
-    if (quizId && quizzes[quizId]) {
-      setDisplayedQuestion("")
-      setIsTyping(true)
-      setShowChoices(false)
-      let i = 0
-      typingIntervalRef.current = setInterval(() => {
-        setDisplayedQuestion(prev => {
-          if (i < quizzes[quizId].question.length) {
-            i++
-            return quizzes[quizId].question.slice(0, i)
-          } else {
-            clearInterval(typingIntervalRef.current)
-            setIsTyping(false)
-            return prev
-          }
-        })
-      }, 50) // 速度調整
-    }
-    return () => {
-      clearInterval(typingIntervalRef.current)
-      window.removeEventListener("scroll", handleScroll);
-      if (animationId) cancelAnimationFrame(animationId)
-      if (stream) stream.getTracks().forEach(track => track.stop())
-      if (videoRef.current) {
-        videoRef.current.removeEventListener('play', startScan)
-      }
-    }
-  }, [quizId, scannedUrl])
+  }
+}, [quizId, scannedUrl])
 
   // ストップボタンでタイピングを止めて選択肢表示
   const handleStopTyping = () => {
@@ -182,7 +184,32 @@ function App() {
 
   return (
     <>
-      {/* Webカメラ映像の表示（省略） */}
+      {/* Webカメラ映像の表示 */}
+      <div style={{ textAlign: "center", marginTop: 20 }}>
+        <h2>QRコードをかざしてください</h2>
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          muted
+          width="320"
+          height="240"
+          style={{ border: '2px solid #1976d2', borderRadius: "8px" }}
+        />
+        <canvas
+          ref={canvasRef}
+          width="320"
+          height="240"
+          style={{ display: 'none' }}
+        />
+        <div style={{
+          marginTop: 10,
+          color: "#1976d2",
+          fontWeight: "bold"
+        }}>
+          カメラにQRコードをかざすとクイズが始まります
+        </div>
+      </div>
       {/* クイズ表示 */}
       {quizId && quizzes[quizId] && (
         <div className="quiz-screen">
