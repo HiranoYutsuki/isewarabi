@@ -48,6 +48,9 @@ function App() {
   const [selected, setSelected] = useState(null)
   const [scannedUrl, setScannedUrl] = useState(null)
   const [hideHeader, setHideHeader] = useState(false);
+  // 追加する useState
+  const [showExplanation, setShowExplanation] = useState(false);
+
 
 
   useEffect(() => {

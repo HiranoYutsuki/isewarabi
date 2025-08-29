@@ -49,8 +49,6 @@ header.hide {
     transform: translateY(-100%);
 }
 
-
-
 header h1 {
     font-size: 28px;
     color: #4b2e1e;
@@ -194,4 +192,70 @@ footer p {
     .main {
         margin-top: 40px; /* ← スマホでも余白調整 */
     }
+}
+
+.start-button {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff8e1, #e6b422);
+    border: 4px solid #8b0000;
+    font-size: 22px;
+    font-family: "Yuji Mai", serif;
+    color: #4b2e1e;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.start-button:hover {
+    transform: scale(1.1);
+}
+.story-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(../images/sample7.jpg) center/cover no-repeat; /* 和紙風背景 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    color: #fff;
+    font-family: "Noto Serif JP", serif;
+    font-size: 20px;
+    line-height: 2;
+    text-align: center;
+    animation: fadein 2s ease;
+}
+.story-text {
+    background: rgba(0,0,0,0.6);
+    padding: 40px;
+    border-radius: 12px;
+    max-width: 800px;
+}
+@keyframes fadein {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+.map-screen {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: url(../images/sample6.jpg) center/contain no-repeat;
+}
+.map-point {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: gold;
+    border-radius: 50%;
+    border: 3px solid #8b0000;
+    cursor: pointer;
+}
+.map-point::after {
+    content: "★";
+    color: #8b0000;
+    font-size: 30px;
+    position: absolute;
+    top: -5px; left: 5px;
 }
