@@ -189,7 +189,6 @@ function App() {
       {/* QRコード読み取り画面はクイズ未選択時のみ表示 */}
       {!quizId && !scannedUrl && (
         <div style={{ textAlign: "center", marginTop: 20 }}>
-          <h2>QRコードをかざしてください</h2>
           <video
             ref={videoRef}
             autoPlay
@@ -242,7 +241,7 @@ function App() {
                       fontSize: "1.2em",
                       padding: "0.7em 2em",
                       borderRadius: "2em",
-                      background: "#1976d2",
+                      background: "#dec775ff",
                       color: "#fff",
                       border: "none",
                       boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
@@ -291,7 +290,7 @@ function App() {
       {/* 初期案内文（QRコード未読時のみ） */}
       {!quizId && !scannedUrl && (
         <p className="read-the-docs">
-          QRコードをかざすとクイズが表示されます
+          ※カメラの使用を許可してください
         </p>
       )}
     </>
