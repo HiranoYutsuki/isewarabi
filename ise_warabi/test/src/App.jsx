@@ -182,6 +182,8 @@ function App() {
     setShowExplanation(false)
   }
 
+  // ...省略...
+
   return (
     <>
       {/* QRコード読み取り画面はクイズ未選択時のみ表示 */}
@@ -220,8 +222,10 @@ function App() {
             <>
               {/* 質問文 */}
               <div className="quiz-question">
-                {displayedQuestion}
-                {isTyping && <span className="blinking-cursor">|</span>}
+                <h3>
+                  {displayedQuestion}
+                  {isTyping && <span className="blinking-cursor">|</span>}
+                </h3>
               </div>
 
               {/* ストップボタン */}
@@ -272,12 +276,7 @@ function App() {
         </div>
       )}
 
-      {/* URL表示時の案内文追加 / 初期表示 */}
-      {!quizId && !scannedUrl && (
-        <p className="read-the-docs">
-          ※カメラの使用を許可してください
-        </p>
-      )}
+      {/* URL表示時の案内文追加 */}
       {scannedUrl && (
         <div style={{ marginTop: 20 }}>
           <h3>QRコードから取得したURL</h3>
@@ -287,6 +286,13 @@ function App() {
           <br />
           <button onClick={handleBackToScan}>戻る</button>
         </div>
+      )}
+
+      {/* 初期案内文（QRコード未読時のみ） */}
+      {!quizId && !scannedUrl && (
+        <p className="read-the-docs">
+          QRコードをかざすとクイズが表示されます
+        </p>
       )}
     </>
   )
