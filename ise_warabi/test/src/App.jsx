@@ -54,6 +54,12 @@ function App() {
 
 
   useEffect(() => {
+    // URLからクイズIDを取得
+    const params = new URLSearchParams(window.location.search)
+    const urlQuizId = params.get('quiz')
+    if (urlQuizId && quizzes[urlQuizId]) {
+      setQuizId(urlQuizId)
+    }
     let animationId
     let stream
     let lastScrollY = window.scrollY;
