@@ -182,7 +182,32 @@ function App() {
 
   return (
     <>
-      {/* Webカメラ映像の表示（省略） */}
+      {/* Webカメラ映像の表示 */}
+      <div style={{ textAlign: "center", marginTop: 20 }}>
+        <h2>QRコードをかざしてください</h2>
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          muted
+          width="320"
+          height="240"
+          style={{ border: '2px solid #1976d2', borderRadius: "8px" }}
+        />
+        <canvas
+          ref={canvasRef}
+          width="320"
+          height="240"
+          style={{ display: 'none' }}
+        />
+        <div style={{
+          marginTop: 10,
+          color: "#1976d2",
+          fontWeight: "bold"
+        }}>
+          カメラにQRコードをかざすとクイズが始まります
+        </div>
+      </div>
       {/* クイズ表示 */}
       {quizId && quizzes[quizId] && (
         <div style={{ marginTop: 20, position: "relative" }}>
