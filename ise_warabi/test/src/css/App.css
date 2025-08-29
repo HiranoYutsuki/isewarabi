@@ -143,3 +143,13 @@
   background: #e5d9c5;
   color: #bfa76f;
 }
+
+.answer-button {
+  font-size: 1.2em;
+  padding: 0.7em 2em;
+  border-radius: 2em;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}

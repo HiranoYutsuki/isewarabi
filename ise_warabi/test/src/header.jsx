@@ -2,7 +2,7 @@ function Header({ onShowHome, onShowQRScan, onShowStampPage }) {
     return (
         <header>
             <h1>
-                <a href="#" onClick={(e) => { e.preventDefault(); onShowHome(); }} style={{ color: "#bfa76f", textDecoration: "none" }}>
+                <a href="#" onClick={(e) => { e.preventDefault(); onShowHome(); }} >
                     isewarabi
                 </a>
             </h1>

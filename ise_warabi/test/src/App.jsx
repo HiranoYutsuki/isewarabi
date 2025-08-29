@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
 import Header from './header'
-import Footer from './footer';
 import StampPage from './components/StampPage'
 import HomePage from './components/HomePage'
 import jsQR from 'jsqr'
@@ -220,18 +219,17 @@ function App() {
 
 return (
     <>
+      <Header
+        onShowHome={handleShowHome}
+        onShowQRScan={handleShowQRScan}
+        onShowStampPage={handleShowStampPage}
+      />
       {showHome ? (
         <HomePage
           onStart={handleShowQRScan}
-          onShowStampPage={handleShowStampPage}
         />
       ) : (
         <>
-          <Header
-            onShowHome={handleShowHome}
-            onShowQRScan={handleShowQRScan}
-            onShowStampPage={handleShowStampPage}
-          />
           {showStampPage ? (
             <StampPage />
           ) : showQRScan ? (
@@ -282,16 +280,7 @@ return (
                           transform: "translateX(-50%)",
                           zIndex: 10
                         }}>
-                          <button
-                            style={{
-                              fontSize: "1.2em",
-                              padding: "0.7em 2em",
-                              borderRadius: "2em",
-                              background: "#1976d2",
-                              color: "#fff",
-                              border: "none",
-                              boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
-                            }}
+                          <button className="answer-button"
                             onClick={handleStopTyping}
                           >
                             答える
