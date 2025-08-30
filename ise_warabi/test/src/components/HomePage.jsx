@@ -1,6 +1,3 @@
-import React from 'react';
-import Header from '../header';
-
 const story = [
   {
     title: "① 出発 ― 猫との出会い",
@@ -27,7 +24,6 @@ const story = [
 function HomePage({ onStart }) {
   return (
     <>
-      <Header />
       <div style={{
         maxWidth: 700,
         margin: "3em auto",
