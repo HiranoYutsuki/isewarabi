@@ -44,7 +44,7 @@ const quizzes = {
 function App() {
   const videoRef = useRef(null)
   const canvasRef = useRef(null)
-  const [quizId, setQuizId] = useState(null)
+  const [quizId, setQuizId] = useState("quiz1")
   const [selected, setSelected] = useState(null)
   const [scannedUrl, setScannedUrl] = useState(null)
   const [showHome, setShowHome] = useState(true)
@@ -56,7 +56,9 @@ function App() {
   const [showChoices, setShowChoices] = useState(false)
   const typingIntervalRef = useRef(null)
   const [hideHeader, setHideHeader] = useState(false);
-
+  // 現在のURLを取得
+  const currentUrl = window.location.origin + window.location.pathname;
+  console.log("Current URL:", quizId);
   // ホーム画面に戻る関数
   const handleShowHome = () => {
     setShowHome(true);
@@ -153,12 +155,26 @@ const scanQRCode = () => {
       if (code && code.data) {
   console.log("QRコード検出:", code.data);
 
-  if (quizzes[code.data]) {
-    setQuizId(code.data);
-  } else if (/^https?:\/\/.+/.test(code.data)) {
-    // URLなら自動で飛ぶ
-    window.location.href = code.data;
+if (quizzes[code.data]) {
+  setQuizId(code.data);
+  console.log("クイズIDセット:", code.data);
+} else if (/^\?quiz=/.test(code.data)) {
+  console.log("QRコードからクイズID取得:", code.data);
+  const quizParam = code.data.split('=')[1]; // quiz1 を取り出す
+  console.log("取得したクイズID:", quizParam);
+  console.log("クイズデータ:", quizzes[quizParam]);
+  if (quizzes[quizParam]) {
+    setQuizId(quizParam);
+    setShowHome(false);
+    setShowStampPage(false);
+    setShowQRScan(false);
+    setDisplayedQuestion(quizzes[quizParam].question);
+    setScannedUrl(false);
+    setSelected(true);
+    setShowExplanation(false);
+    console.log("クイズIDセット:", quizId);
   }
+}
 }
     }
   }
