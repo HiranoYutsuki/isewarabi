@@ -4,7 +4,7 @@ import StampPage from './components/StampPage'
 import HomePage from './components/HomePage'
 import jsQR from 'jsqr'
 import './css/App.css'
-
+import { addStamp } from '../utils/stampManager'; 
 
 // クイズデータ（ローカル定義）
 const quizzes = {
@@ -88,6 +88,7 @@ function App() {
     setSelected(null);
     setShowExplanation(false);
   };
+
   
 
   useEffect(() => {
@@ -197,9 +198,12 @@ function App() {
 
     // クイズ選択肢クリック時
   const handleChoice = (idx) => {
-    setSelected(idx)
-    setShowExplanation(true)
+  setSelected(idx);
+  setShowExplanation(true);
+  if (idx === quizzes[quizId].answer) {
+    addStamp(); // 正解時にスタンプ追加
   }
+};
 
   // クイズ画面に戻る
   const handleBack = () => {
