@@ -247,13 +247,6 @@ if (videoRef.current) {
     addStamp(); // 正解時にスタンプ追加
   }
 };
-
-  // クイズ画面に戻る
-  const handleBack = () => {
-    setQuizId(null)
-    setSelected(null)
-    setShowExplanation(false)
-  }
   
   // QRコード画面に戻る
   const handleBackToScan = () => {
@@ -351,7 +344,7 @@ return (
                         {selected === quizzes[quizId].answer ? "正解" : "不正解"}
                       </div>
                       <div>{quizzes[quizId].explanation}</div>
-                      <button className="back-button" onClick={handleBack}>戻る</button>
+                      <button className="back-button" onClick={handleShowQRScan}>戻る</button>
                     </div>
                   )}
                 </div>
@@ -365,7 +358,7 @@ return (
                     ここをクリック
                   </a>
                   <br />
-                  <button onClick={handleBackToScan}>戻る</button>
+                  <button onClick={handleShowQRScan}>戻る</button>
                 </div>
               )}
 
