@@ -55,6 +55,7 @@ function App() {
   const [isTyping, setIsTyping] = useState(false)
   const [showChoices, setShowChoices] = useState(false)
   const typingIntervalRef = useRef(null)
+  const [hideHeader, setHideHeader] = useState(false);
 
   // ホーム画面に戻る関数
   const handleShowHome = () => {
@@ -92,16 +93,21 @@ function App() {
   
 
   useEffect(() => {
+
+  if (!showQRScan) return; 
   let animationId
   let stream
   let lastScrollY = window.scrollY;
 
   // スクロールイベント
   const handleScroll = () => {
+    
     if (window.scrollY > lastScrollY) {
       setHideHeader(true);
+      
     } else {
       setHideHeader(false);
+      
     }
     lastScrollY = window.scrollY;
   };
@@ -112,9 +118,14 @@ function App() {
     video: { facingMode: 'environment' }
   })
     .then(s => {
+      
       stream = s
+      
+      
+      
       if (videoRef.current) {
         videoRef.current.srcObject = stream
+        console.log('Webカメラの取得に成功しました')
       }
     })
     .catch(err => {
@@ -186,7 +197,8 @@ function App() {
       videoRef.current.removeEventListener('play', startScan)
     }
   }
-}, [quizId, scannedUrl])
+}, [quizId, scannedUrl, showQRScan])
+
 
   // ストップボタンでタイピングを止めて選択肢表示
   const handleStopTyping = () => {
