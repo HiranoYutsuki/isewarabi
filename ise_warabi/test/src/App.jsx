@@ -133,31 +133,46 @@ function App() {
     })
 
   // QRコード解析
-  const scanQRCode = () => {
-    const video = videoRef.current
-    const canvas = canvasRef.current
-    if (video && canvas && !quizId && !scannedUrl) {
-      const ctx = canvas.getContext('2d')
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-      const code = jsQR(imageData.data, canvas.width, canvas.height)
+  // QRコード解析
+const scanQRCode = () => {
+  const video = videoRef.current;
+  const canvas = canvasRef.current;
+
+  if (video && canvas && !quizId && !scannedUrl) {
+    const ctx = canvas.getContext("2d");
+
+    // video のサイズに canvas を合わせる
+    if (video.videoWidth && video.videoHeight) {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const code = jsQR(imageData.data, canvas.width, canvas.height);
+
       if (code && code.data) {
-        // QRコードの内容がクイズIDなら表示
-        if (quizzes[code.data]) {
-          setQuizId(code.data)
-        } else if (/^https?:\/\/.+/.test(code.data)) {
-          setScannedUrl(code.data)
-        }
-      }
+  console.log("QRコード検出:", code.data);
+
+  if (quizzes[code.data]) {
+    setQuizId(code.data);
+  } else if (/^https?:\/\/.+/.test(code.data)) {
+    // URLなら自動で飛ぶ
+    window.location.href = code.data;
+  }
+}
     }
-    animationId = requestAnimationFrame(scanQRCode)
   }
-  const startScan = () => {
-    scanQRCode()
-  }
-  if (videoRef.current) {
-    videoRef.current.addEventListener('play', startScan)
-  }
+  animationId = requestAnimationFrame(scanQRCode);
+};
+
+const startScan = () => {
+  requestAnimationFrame(scanQRCode); // 初回呼び出し
+};
+
+// video の再生開始後に scan 開始
+if (videoRef.current) {
+  videoRef.current.addEventListener("loadedmetadata", startScan);
+}
 
   // URLからクイズIDを取得（初回のみ）
   if (!quizId) {
@@ -259,6 +274,7 @@ return (
                 width="320"
                 height="240"
                 style={{ border: '2px solid #1976d2', borderRadius: "8px" }}
+
               />
               <canvas
                 ref={canvasRef}
