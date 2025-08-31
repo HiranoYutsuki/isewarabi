@@ -45,7 +45,7 @@ function StampPage() {
             margin: "8px"
           }}>
             <img
-              src={stampIndex < count ? "/images/stamp.png" : "/images/stamp_gray.png"}
+              src={stampIndex < count ? "/public/stamp.png" : "/public/stamp_gray.png"}
               alt={stampIndex < count ? "獲得スタンプ" : "未獲得"}
               style={{
                 width: 80,
@@ -89,7 +89,7 @@ function StampPage() {
         </div>
       </div>
       {count >= 5 && (
-        <img src="/images/stamp_clear.png" alt="コンプリート画像" style={{ width: 200 }} />
+        <img src="/public/stamp_clear.png" alt="コンプリート画像" style={{ width: 200 }} />
       )}
       <button onClick={handleReset} style={{
         marginTop: "2em",
