@@ -5,6 +5,7 @@ export function getStampCount() {
 
 export function addStamp() {
   const current = getStampCount();
+  if (current >= 5) return; // 最大5個まで
   localStorage.setItem('stampCount', current + 1);
 }
 
